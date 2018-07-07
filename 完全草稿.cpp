@@ -33,6 +33,8 @@ void maopao(int a[], int length){
 	}
 }
 int main(){
+	const char* const TAG = "JNIMsg";
+	cout<<TAG<<endl; 
 	int n = 2;
 	n+=n-=n*n;
 //	cout<<n<<endl;
