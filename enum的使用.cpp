@@ -8,5 +8,5 @@ enum DAY
 };
 int main()
 {
-	
+	cout<<MON<<endl; 
 } 
