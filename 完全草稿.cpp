@@ -2,6 +2,8 @@
 # include <cstring>
 # include <cstdio>
 # include <typeinfo>
+#include <stdlib.h>
+#include<vector>
 using namespace std;
 /*
 	Name: 
@@ -10,7 +12,10 @@ using namespace std;
 	Date: 17/05/18 11:35
 	Description: 
 */
-
+template<class T, class container = vector<T> >
+class MyClass{
+	
+};
 void print(int a[], int length){
   for (int i = 0 ; i < length; ++i){
   	cout<<a[i]<<' ';
@@ -33,6 +38,18 @@ void maopao(int a[], int length){
 	}
 }
 int main(){
+	cout<<(int*)"Home of the jolly bytes.\n"; 
+	void* buf = malloc(100);
+	cout<<buf<<endl;
+	cout<<sizeof(buf)<<endl;
+	
+	string szWorldid = "21621279589017";
+	long long worldid;
+	sscanf(szWorldid.c_str(), "%lld", &worldid);
+	cout<<worldid<<endl;
+	printf("%lld\n", worldid);
+//	const char* name;
+//	printf("name = %s", (name? name : "NULL")); 
 	cout<<sizeof(long)<<endl; 
 	cout<<sizeof(double)<<endl; 
 	cout<<sizeof(long double)<<endl; 
