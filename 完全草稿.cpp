@@ -38,6 +38,8 @@ void maopao(int a[], int length){
 	}
 }
 int main(){
+	int x = (1, 024);
+	cout<<x<<endl;
 	cout<<(int*)"Home of the jolly bytes.\n"; 
 	void* buf = malloc(100);
 	cout<<buf<<endl;
