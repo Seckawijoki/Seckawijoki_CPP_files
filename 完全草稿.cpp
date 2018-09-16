@@ -1,6 +1,5 @@
 # include <iostream>
-# include <cstring>
-# include <cstdio>
+#include<sstream>
 # include <typeinfo>
 #include <stdlib.h>
 #include<vector>
@@ -16,28 +15,20 @@ template<class T, class container = vector<T> >
 class MyClass{
 	
 };
-void print(int a[], int length){
-  for (int i = 0 ; i < length; ++i){
-  	cout<<a[i]<<' ';
-  }
-  cout<<endl;
-}
-void maopao(int a[], int length){
-	for (int i = 0 ; i < length; ++i){
-		bool sorted = false;
-		for (int j = 1 ; j < length - i ; ++j){
-			if (a[j-1] > a[j]){
-				int temp = a[j-1];
-				a[j-1] = a[j];
-				a[j] = temp;
-				sorted = true;
-			}
-		}
-	  print(a, length);
-		if (!sorted)break;
-	}
-}
+void print(int[], int);
+void maopao(int[], int); 
 int main(){
+	int stringId = 542;
+	int type = 3;
+	char* luaString;
+	char* szStringId;
+	char* szType;
+	stringstream stream;
+	stream<<"ShowGameTips(GetS("<<stringId<<"),"<<type<<");";
+	string luaString2;
+	stream>>luaString2; 
+	cout<<luaString2.c_str()<<endl; 
+	
 	int x = (1, 024);
 	cout<<x<<endl;
 	cout<<(int*)"Home of the jolly bytes.\n"; 
@@ -96,5 +87,26 @@ int main(){
 //	cout<<*p1<<endl;
 //	cout<<*p2<<endl;
 //	cout<<*p3<<endl;
+}
+void print(int a[], int length){
+  for (int i = 0 ; i < length; ++i){
+  	cout<<a[i]<<' ';
+  }
+  cout<<endl;
+}
+void maopao(int a[], int length){
+	for (int i = 0 ; i < length; ++i){
+		bool sorted = false;
+		for (int j = 1 ; j < length - i ; ++j){
+			if (a[j-1] > a[j]){
+				int temp = a[j-1];
+				a[j-1] = a[j];
+				a[j] = temp;
+				sorted = true;
+			}
+		}
+	  print(a, length);
+		if (!sorted)break;
+	}
 }
 

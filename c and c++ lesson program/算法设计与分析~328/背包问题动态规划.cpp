@@ -15,7 +15,7 @@ const int capacityIncrement = 200;
 int c[maxNumber+6][maxCapacity+6];
 int x[maxNumber+6];
 //========ÐUÁ¦·¨========// 
-int chosen[int(pow(2,maxNumber)+6)][maxCapacity+6];
+int chosen[(int)pow(2,maxNumber)+6][maxCapacity+6];
 int cp[maxNumber+printSize];
 
 void refreshArray( int number, int capacity ){
