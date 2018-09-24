@@ -28,6 +28,12 @@ int main(){
 	string luaString2;
 	stream>>luaString2; 
 	cout<<luaString2.c_str()<<endl; 
+	printf("%x\n",luaString);
+	char* pointer = luaString;
+	printf("%x\n", pointer); 
+	pointer = NULL;
+	printf("%x\n", pointer); 
+	delete pointer;
 	
 	int x = (1, 024);
 	cout<<x<<endl;
