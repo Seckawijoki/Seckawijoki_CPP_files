@@ -147,12 +147,12 @@ int main(){
 	delete p3;
 	delete p4;
 	
-	
+	cout<<"read\n";
 	cout<<endl;	
 	Person *p = new Child();
 	Readable *r = new Magazine();
 	r->read();
-	delete r;
+//	delete r;
 	r = new Newspaper();
 	r->read();
 	p->read(r);
