@@ -10,7 +10,7 @@ public:
 	JavaMethodInvokerBuilder();
 	~JavaMethodInvokerBuilder();
 	//tolua_begin
-	JavaMethodInvokerBuilder* debug(const bool);
+	JavaMethodInvokerBuilder* debug(bool = true);
 	JavaMethodInvokerBuilder* setClassName(const char*);
 	JavaMethodInvokerBuilder* setMethodName(const char*);
 	JavaMethodInvokerBuilder* setSignature(const char*);
@@ -47,7 +47,7 @@ private:
 	const char* m_szClassName;
 	const char* m_szMethodName;
 	const char* m_szSignature;
-	Type m_JavaReturnType;
+	JavaType m_JavaReturnType;
 	bool m_bDebug;
 	bool m_bIsUsed;
 };//tolua_exports

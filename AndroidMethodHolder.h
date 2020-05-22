@@ -2,39 +2,39 @@
 #define ANDROID_METHOD_HOLDER_H
 #include <vector>
 using namespace std;
+enum JavaType {
+	JAVA_VOID = 0,
+	JAVA_BOOLEAN,
+	JAVA_BYTE,
+	JAVA_CHAR,
+	JAVA_SHORT,
+	JAVA_INT,
+	JAVA_LONG,
+	JAVA_FLOAT,
+	JAVA_DOUBLE,
+	JAVA_STRING,
+	//JAVA_OBJECT,
+	//JAVA_BOOLEAN_ARRAY,
+	//JAVA_BYTE_ARRAY,
+	//JAVA_CHAR_ARRAY,
+	//JAVA_SHORT_ARRAY,
+	//JAVA_INT_ARRAY,
+	//JAVA_LONG_ARRAY,
+	//JAVA_FLOAT_ARRAY,
+	//JAVA_DOUBLE_ARRAY,
+	//JAVA_OBJECT_ARRAY,
+	//JAVA_STRING_ARRAY,
+};
 namespace lua2java {
-	enum Type {
-		JAVA_VOID = 0,
-		JAVA_BOOLEAN,
-		JAVA_BYTE,
-		JAVA_CHAR,
-		JAVA_SHORT,
-		JAVA_INT,
-		JAVA_LONG,
-		JAVA_FLOAT,
-		JAVA_DOUBLE,
-		JAVA_STRING,
-		//JAVA_OBJECT,
-		//JAVA_BOOLEAN_ARRAY,
-		//JAVA_BYTE_ARRAY,
-		//JAVA_CHAR_ARRAY,
-		//JAVA_SHORT_ARRAY,
-		//JAVA_INT_ARRAY,
-		//JAVA_LONG_ARRAY,
-		//JAVA_FLOAT_ARRAY,
-		//JAVA_DOUBLE_ARRAY,
-		//JAVA_OBJECT_ARRAY,
-		//JAVA_STRING_ARRAY,
-	};
 	class Holder {
 	public:
 		Holder() : m_Type(JAVA_VOID) {
 
 		}
-		Holder(Type type) : m_Type(type) {
+		Holder(JavaType type) : m_Type(type) {
 
 		}
-		template <typename T> Holder(Type type, T const& value) : m_Type(type), ptr_(new Data<T>(value)) {
+		template <typename T> Holder(JavaType type, T const& value) : m_Type(type), ptr_(new Data<T>(value)) {
 
 		}
 		Holder(Holder const& other) : m_Type(other.m_Type) {
@@ -47,7 +47,7 @@ namespace lua2java {
 			return *this;
 		}
 		~Holder() {
-			delete this->ptr_;
+
 		}
 		void swap(Holder& other) {
 			Base* temp = this->ptr_;
@@ -57,7 +57,7 @@ namespace lua2java {
 		template <typename T> T& get() {
 			return dynamic_cast<Data<T>&>(*this->ptr_).value_;
 		}
-		Type getType() {
+		JavaType getType() {
 			return m_Type;
 		}
 	private:
@@ -78,7 +78,7 @@ namespace lua2java {
 			T value_;
 		};
 		Base* ptr_;
-		Type m_Type;
+		JavaType m_Type;
 	};
 }
 #endif

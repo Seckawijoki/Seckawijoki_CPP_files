@@ -13,21 +13,9 @@ JavaMethodInvokerBuilder::JavaMethodInvokerBuilder()
 }
 JavaMethodInvokerBuilder::~JavaMethodInvokerBuilder() {
 	m_AndroidParams.clear();
-	if (m_szClassName != NULL) {
-		delete m_szClassName;
-	}
-	if (m_szClassName != NULL) {
-		delete m_szMethodName;
-	}
-	if (m_szClassName != NULL) {
-		delete m_szSignature;
-	}
-	if (m_pReturnHolder != NULL) {
-		delete m_pReturnHolder;
-	}
 	m_pNext = NULL;
 }
-JavaMethodInvokerBuilder* JavaMethodInvokerBuilder::debug(const bool debug) {
+JavaMethodInvokerBuilder* JavaMethodInvokerBuilder::debug(bool debug) {
 	m_bDebug = debug;
 	return this;
 }
@@ -43,6 +31,9 @@ JavaMethodInvokerBuilder* JavaMethodInvokerBuilder::setMethodName(const char* me
 }
 JavaMethodInvokerBuilder* JavaMethodInvokerBuilder::setSignature(const char* signature) {
 	if (m_bDebug)LOG_INFO("setSignature(): signature = %s", signature);
+	if (!signature){
+		return this;
+	}
 	m_szSignature = signature;
 	std::string szSignature = std::string(signature);
 	std::string szSignatureReturnType = szSignature.substr(szSignature.find_last_of(')') + 1);
@@ -140,6 +131,11 @@ JavaMethodInvokerBuilder* JavaMethodInvokerBuilder::clearParams() {
 }
 JavaMethodInvokerBuilder* JavaMethodInvokerBuilder::callAndroidMethod() {
 	if (m_bDebug)LOG_INFO("callAndroidMethod(): m_JavaReturnType = %d", m_JavaReturnType);
+	if (!m_szClassName || !m_szMethodName || !m_szSignature){
+		m_bIsUsed = true;
+		m_pReturnHolder = new Holder(JAVA_VOID);
+		return this;
+	}
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
 	m_pReturnHolder = CallAndroidMethodJNI(m_szClassName, m_szMethodName, m_szSignature, m_JavaReturnType, m_AndroidParams, m_bDebug);
 #else
@@ -209,6 +205,7 @@ void JavaMethodInvokerBuilder::onRecycle() {
 	clearParams();
 	m_pNext = NULL;
 	m_bIsUsed = false;
+	m_bDebug = false;
 }
 void JavaMethodInvokerBuilder::print() {
 	//LOG_INFO("print(): next = %x : %s %s %s (isUsed = %d), ", 
@@ -246,7 +243,9 @@ void JavaMethodInvokerFactory::release() {
 	while (current) {
 		temp = current;
 		current = current->m_pNext;
-		OGRE_DELETE(temp);
+		if (temp != current) {
+			OGRE_DELETE(temp);
+		}
 	}
 }
 
@@ -278,7 +277,7 @@ void JavaMethodInvokerFactory::add(JavaMethodInvokerBuilder* node) {
 JavaMethodInvokerBuilder* JavaMethodInvokerFactory::obtain() {
 	if (!s_Pool) {
 		JavaMethodInvokerBuilder* builder = new JavaMethodInvokerBuilder();
-		LOG_INFO("JavaMethodInvokerFactory::obtain(): new head @%x", builder);
+		//LOG_INFO("JavaMethodInvokerFactory::obtain(): new head @%x", builder);
 		return s_Pool = builder;
 	}
 	//if (s_PoolSize > MAX_POOL_SIZE) {
@@ -295,7 +294,7 @@ JavaMethodInvokerBuilder* JavaMethodInvokerFactory::obtain() {
 	}
 	if (!current->isUsed()) {
 		JavaMethodInvokerBuilder* builder = new JavaMethodInvokerBuilder();
-		LOG_INFO("JavaMethodInvokerFactory::obtain(): new node @%x", builder);
+		//LOG_INFO("JavaMethodInvokerFactory::obtain(): new node @%x", builder);
 		return builder;
 	}
 	if (previous) {
@@ -307,6 +306,6 @@ JavaMethodInvokerBuilder* JavaMethodInvokerFactory::obtain() {
 
 	--s_PoolSize;
 	current->onRecycle();
-	LOG_INFO("JavaMethodInvokerFactory::obtain(): reuse @%x", current);
+	//LOG_INFO("JavaMethodInvokerFactory::obtain(): reuse @%x", current);
 	return current;
 }
